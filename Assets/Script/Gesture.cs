@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.VR.WSA.Input;
 
 public class Gesture: MonoBehaviour {
@@ -168,6 +168,8 @@ public class Gesture: MonoBehaviour {
             if (FocusedObject.tag == "MyButton")
             {
                 FocusedObject.SendMessageUpwards("Toggle", FocusedObject);
+
+                Debug.Log("object is " + FocusedObject);
             }
             else
             {

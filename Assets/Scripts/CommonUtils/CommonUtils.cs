@@ -2,7 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using UnityEngine;
+using System.Linq;
+using System.Threading;
+
+#if !UNITY_EDITOR && UNITY_METRO
+using Windows.Storage;
+using System.Threading.Tasks;
+using Windows.Data.Xml.Dom;
+using System;
+#endif
 
 public class CommonUtils : MonoBehaviour {
 
@@ -72,14 +83,16 @@ public class CommonUtils : MonoBehaviour {
 
         File.WriteAllText("data.txt", string.Empty);
 
-        StreamWriter sw = new StreamWriter("data.txt");
+        StreamWriter sw = new StreamWriter(new FileStream(Application.dataPath + "data.txt", FileMode.Open));
+
+        //StreamWriter sw = new StreamWriter("data.txt");
         foreach (var data in list)
         {
             writeToFile(sw, data.Value);
         }
 
 
-        sw.Close();
+        //sw.Close();
     }
 
     public static void load(string filename, Dictionary<string,BarData> list, ref DataSetConstraints dataConstraints)
@@ -99,19 +112,19 @@ public class CommonUtils : MonoBehaviour {
             BarData data = JsonUtility.FromJson<BarData>(json);
 
             //Add existing area to area name list if is not already contained.
-            if (!existingAreaNames.Contains(data.HospitalName))
+            if (!existingAreaNames.Contains(data.categoryName))
             {
-                existingAreaNames.Add(data.HospitalName);
+                existingAreaNames.Add(data.categoryName);
             }
             //Update min max vals.
             if (data.year < minYear) minYear = data.year;
             if (data.year > maxYear) maxYear = data.year;
-            if (data.HospitalizationNum < minVal) minVal = data.HospitalizationNum;
-            if (data.HospitalizationNum > maxVal) maxVal = data.HospitalizationNum;
+            if (data.value < minVal) minVal = data.value;
+            if (data.value > maxVal) maxVal = data.value;
 
 
 
-            list.Add(data.HospitalName+data.year,data);
+            list.Add(data.categoryName+data.year,data);
         }
         //Set the updated data constraint.
         dataConstraints = new DataSetConstraints(minYear, maxYear, minVal, maxVal, existingAreaNames);
@@ -128,18 +141,55 @@ public class CommonUtils : MonoBehaviour {
     }
 
 
-    public static void load(string inFileName, string causeOfDeathFileName, Dictionary<string, BarData> list, ref Dictionary<int, DataSetConstraints> dataConstraints, ref List<int> zipCodeList)
+    public static void load(string inFileName, string causeOfDeathFileName, ref Dictionary<string, BarData> list, ref Dictionary<int, DataSetConstraints> dataConstraints, ref List<int> zipCodeList, ref DataGlobalTotals dgt)
     {
+
+
+        string folderName =
+#if !UNITY_EDITOR && UNITY_METRO
+            ApplicationData.Current.RoamingFolder.Path;
+#else
+            "Assets";
+#endif
+
         //Load Cause of Death first.
-        string[] causesOfDeathList = File.ReadAllLines(causeOfDeathFileName);
+        var stringList =
+#if !UNITY_EDITOR && UNITY_METRO
+            ReadLines(OpenFileForRead(folderName, inFileName),
+              Encoding.UTF8).ToList<string>();
+#else
+            File.ReadAllLines(inFileName);
+#endif
 
-        string[] stringList = File.ReadAllLines(inFileName);
 
+        //List<string> causesOfDeathList = ReadLines(OpenFileForRead(folderName, causeOfDeathFileName),
+        //              Encoding.UTF8).ToList<string>();
 
-
-
-        foreach (string line in stringList)
+        List < string> causesOfDeathList = new List<string>();
+        for (int i = 0; i < 14; i++)
         {
+            causesOfDeathList.Add(stringList[i]);
+        }
+
+        //string[] causesOfDeathList = File.ReadAllLines(OpenFileForRead("", causeOfDeathFileName);
+
+        //string[] stringList = File.ReadAllLines(inFile.text);
+
+        //Initialize DGT.
+        if (dgt == null) dgt = new DataGlobalTotals();
+
+        int size =
+#if !UNITY_EDITOR && UNITY_METRO
+            stringList.Count;
+#else
+            stringList.Length;
+#endif
+
+
+        for (int i = 15; i < size; i++)
+        {
+            string line = stringList[i];
+
             //Parse the file.
             char[] delimiterChars = { ',', '"', '(', ')' };
             string[] words = line.Split(delimiterChars);
@@ -165,14 +215,14 @@ public class CommonUtils : MonoBehaviour {
 
             foreach (string name in causesOfDeathList)
             {
-                if(!dsc.areaNames.Contains(name))
-                dsc.areaNames.Add(name);
+                if (!dsc.valueTypeName.Contains(name))
+                    dsc.valueTypeName.Add(name);
             }
 
-            for (int i = 2; i <= 15; i++)
+            for (int j = 2; j <= 15; j++)
             {
-                string currDisease = causesOfDeathList[i - 2];
-                string numOfPeepString = words[i];
+                string currDisease = causesOfDeathList[j - 2];
+                string numOfPeepString = words[j];
                 
                 int numOfPeep = 0;
 
@@ -191,14 +241,47 @@ public class CommonUtils : MonoBehaviour {
 
                 BarData data = new BarData(year, currDisease, numOfPeep);
 
-
+                dgt.AddData(data);
 
                 list.Add(currDisease + year + zipCodeInt, data);
             }
 
         }
 
-
+        int k = 1;
     }
 
+
+
+    private static Stream OpenFileForRead(string folderName, string fileName)
+    {
+        Stream stream = null;
+#if !UNITY_EDITOR && UNITY_METRO
+  Task task = new Task(
+    async () => {
+      StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(folderName);
+      StorageFile file = await folder.GetFileAsync(fileName);
+      stream = await file.OpenStreamForReadAsync();
+    });
+  task.Start();
+  task.Wait();
+#endif
+        return stream;
+    }
+
+
+    public static IEnumerable<string> ReadLines(Stream streamProvider,
+                                     Encoding encoding)
+    {
+        using (var reader = new StreamReader(streamProvider, encoding))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                yield return line;
+            }
+        }
+    }
 }
+
+

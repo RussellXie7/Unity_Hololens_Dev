@@ -3,20 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class BarData
+public class DataGlobalTotals
 {
-    public int year;
-    public string HospitalName;
-    public int HospitalizationNum;
+    public Dictionary<string, int> totals;
 
-
-
-    public BarData(int year, string hospitalname, int hospitalizationNum)
+    public DataGlobalTotals()
     {
-        this.year = year;
-        this.HospitalizationNum = hospitalizationNum;
-        this.HospitalName = hospitalname;
+        totals = new Dictionary<string, int>();
+    }
+
+    public int GetTotal(int year, string name)
+    {
+        return totals[year + name];
+    }
+
+    public void AddData(BarData data)
+    {
+        //Generate key first.
+        string key = data.year + data.categoryName;
+
+        //If totals does not contain current key, add it in without comparison.
+        if (!totals.ContainsKey(key))
+        {
+            totals.Add(key, data.value);
+        }
+        else
+        {
+            totals[key] += data.value;
+        }
     }
 }
 
@@ -26,7 +40,7 @@ public class DataSetConstraints
     public int maxYear;
     public int minValue;
     public int maxValue;
-    public List<string> areaNames;
+    public List<string> valueTypeName;
 
     public DataSetConstraints(int miny, int maxy, int minVal, int maxVal, List<string> areanames)
     {
@@ -34,7 +48,7 @@ public class DataSetConstraints
         maxYear = maxy;
         minValue = minVal;
         maxValue = maxVal;
-        areaNames = new List<string>(areanames);
+        valueTypeName = new List<string>(areanames);
     }
 
     public DataSetConstraints()
@@ -43,7 +57,7 @@ public class DataSetConstraints
         maxYear = Int32.MinValue;
         minValue = Int32.MaxValue;
         maxValue = Int32.MinValue;
-        areaNames = new List<string>();
+        valueTypeName = new List<string>();
     }
 }
 
@@ -61,6 +75,8 @@ public class BarChartBuilder : MonoBehaviour
     public GameObject labelObject;
     public Label ZipCodeLabel;
 
+
+
     public int currentZipCode;
 
     //Bar mode.
@@ -71,10 +87,12 @@ public class BarChartBuilder : MonoBehaviour
     public Dictionary<string, BarData> dataList;
     public string fileNameToLoad;
     public string causeOfDeathFile;
-    //private DataSetConstraints dataConstraint;
     private Dictionary<int, DataSetConstraints> dataConstraints;
     private List<int> zipcodeList;
     private int zipcodeIndex = 0;
+
+    //Stores the total number for each causeOfDeath per year.
+    private DataGlobalTotals dgt;
 
     //Offset between each bar.
     public float offset;
@@ -88,13 +106,15 @@ public class BarChartBuilder : MonoBehaviour
     public LinePiece lineDrawer;
 
     private Vector3 initScale;
+    private Quaternion initRotation;
 
     void Awake()
     {
+
         initScale = this.transform.localScale;
-        this.transform.localScale = Vector3.one;
+        initRotation = this.transform.localRotation;
         BuildBarChart();
-        this.transform.localScale = initScale;
+
     }
 
 
@@ -113,17 +133,22 @@ public class BarChartBuilder : MonoBehaviour
     //Build a chart with x rows and y colums.
     public void BuildBarChart()
     {
+        //Record the local scale and build the chart at identity scale matrix.
+        this.transform.localScale = Vector3.one;
+
+        Quaternion prevRotation = this.transform.localRotation;
+        this.transform.localRotation = Quaternion.identity;
 
         if (fileNameToLoad != null)
         {
             dataList = new Dictionary<string, BarData>();
             zipcodeList = new List<int>();
             dataConstraints = new Dictionary<int, DataSetConstraints>();
-            CommonUtils.load(fileNameToLoad, causeOfDeathFile, dataList, ref dataConstraints, ref zipcodeList);
+            CommonUtils.load(fileNameToLoad, causeOfDeathFile, ref dataList, ref dataConstraints, ref zipcodeList, ref dgt);
         }
         else
         {
-            Debug.LogError("Data file name is empty!");
+            //Debug.LogError("Data file name is empty!");
         }
 
         if (currentZipCode == -1)
@@ -135,11 +160,18 @@ public class BarChartBuilder : MonoBehaviour
 
         buildChartWithData(dataConstraint);
 
+        //Set back the local scale
+        this.transform.localScale = initScale;
+        this.transform.localRotation = prevRotation;
     }
 
     private void buildChartWithData(DataSetConstraints dataConstraint)
     {
+        //Record the local scale and build the chart at identity scale matrix.
         this.transform.localScale = Vector3.one;
+
+        Quaternion prevRotation = this.transform.localRotation;
+        this.transform.localRotation = Quaternion.identity;
 
         ClearAllbars();
 
@@ -147,7 +179,7 @@ public class BarChartBuilder : MonoBehaviour
         ZipCodeLabel.setText(currentZipCode+"");
 
         //Initialize the size of the chart with constraints.
-        int sizex = dataConstraint.areaNames.Count;
+        int sizex = dataConstraint.valueTypeName.Count;
         int sizey = dataConstraint.maxYear - dataConstraint.minYear + 1;
 
         //Update the size of the base plane.
@@ -163,7 +195,7 @@ public class BarChartBuilder : MonoBehaviour
         for (int x = 0; x < sizex; x++)
         {
             //Get current area
-            string currArea = dataConstraint.areaNames[x];
+            string currArea = dataConstraint.valueTypeName[x];
 
             //Get label position
             if (true)
@@ -210,14 +242,14 @@ public class BarChartBuilder : MonoBehaviour
                 if (dataToUse == null)
                 {
                     ////[DELETE]
-                    Debug.Log("Current year is " + currYear);
-                    Debug.Log("Current area is " + currArea);
-                    Debug.LogError("Not enough data to use for size x " + sizex + " y " + sizey);
+                    //Debug.Log("Current year is " + currYear);
+                    //Debug.Log("Current area is " + currArea);
+                    //Debug.LogError("Not enough data to use for size x " + sizex + " y " + sizey);
                 }
 
                 //Get bar componnet for setup.
                 Bar barComponent = bar.GetComponent<Bar>();
-                if (barComponent == null) Debug.LogError("Bar does not have Bar component!");
+                //if (barComponent == null) //Debug.LogError("Bar does not have Bar component!");
 
 
                 //First set universal scale factor.
@@ -226,15 +258,15 @@ public class BarChartBuilder : MonoBehaviour
                 barComponent.InitBarWithData(dataToUse);
 
                 //Set bar's color basing on its data.
-                float barVal = barComponent.barData.HospitalizationNum;
+                float barVal = barComponent.barData.value;
                 float percentile = (barVal - dataConstraint.minValue) / (dataConstraint.maxValue - dataConstraint.minValue);
-                Debug.Log("Current percentile is " + percentile);
+                //Debug.Log("Current percentile is " + percentile);
                 //int indexOfColor = (int)(colorLevels.Length * percentile)+1;
                 int indexOfColor = Mathf.RoundToInt(colorLevels.Length * percentile);
                 //Deal with the case when data is max.
                 if (indexOfColor == colorLevels.Length) indexOfColor--;
-                Debug.Log("Current index of Color is " + indexOfColor);
-                Debug.Log("Color levels size is " + colorLevels.Length);
+                //Debug.Log("Current index of Color is " + indexOfColor);
+                //Debug.Log("Color levels size is " + colorLevels.Length);
                 barComponent.SetColor(colorLevels[indexOfColor]);
                 barComponent.SetValueText((int)barVal, colorLevels[indexOfColor]);
 
@@ -251,7 +283,10 @@ public class BarChartBuilder : MonoBehaviour
         }
 
         lineDrawer.lineSegsParent.gameObject.SetActive(false);
+
+        //Set back the local scale
         this.transform.localScale = initScale;
+        this.transform.localRotation = prevRotation;
     }
 
     public void AdjustZipCode(int i)
@@ -282,19 +317,11 @@ public class BarChartBuilder : MonoBehaviour
         labelRow.GetComponent<Label>().setText(labelName);
     }
 
-
-
-    //Load data.
-    public void LoadData()
-    {
-
-    }
-
     //Clear all bars.
     public void ClearAllbars()
     {
         planeModel.transform.localScale = Vector3.one;
-        CommonUtils.DestroyImmediateAllChildrenOf(lineDrawer.lineSegsParent.transform);
+        CommonUtils.DestroyImmediateAllChildrenOf(lineDrawer.lineSegsParent.transform);     
         CommonUtils.DestroyImmediateAllChildrenOf(labelsParent);
 
         var children = new List<GameObject>();
@@ -304,27 +331,6 @@ public class BarChartBuilder : MonoBehaviour
                 CommonUtils.DestroyImmediate(child);
     }
 
-
-    //[REWORK] Find data from active data List
-    //private BarData findEntryFromData(Dictionary<string, BarData> dataList, string areaName, int year)
-    //{
-    //    string key = areaName + year;
-    //    if (dataList.ContainsKey(key))
-    //    {
-    //        return dataList[key];
-    //    }
-    //    else
-    //    { 
-    //        return null;
-    //    }
-    //}
-
-
-    //Draw lines
-    public void DrawLines()
-    {
-
-    }
 
     //Resize BarChart
 

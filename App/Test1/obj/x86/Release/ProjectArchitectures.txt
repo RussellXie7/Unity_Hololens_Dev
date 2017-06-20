@@ -1,0 +1,4 @@
+C:\Users\RUSSE\UnityWorks\AssetsResources\Hololens App From Wanze\Hololens App From Wanze\App\GeneratedProjects\UWP\Assembly-CSharp\Assembly-CSharp.csproj;x86
+C:\Users\RUSSE\UnityWorks\AssetsResources\Hololens App From Wanze\Hololens App From Wanze\App\GeneratedProjects\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
+C:\Users\RUSSE\UnityWorks\AssetsResources\Hololens App From Wanze\Hololens App From Wanze\App\GeneratedProjects\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
+C:\Users\RUSSE\UnityWorks\AssetsResources\Hololens App From Wanze\Hololens App From Wanze\App\Test1\Test1.csproj;x86

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,17 +39,17 @@ public class CubeAction : MonoBehaviour {
             transform.Rotate(new Vector3(0, -1 * rotationFactor, 0));
         }
     }
-    void OnSelect()
-    {
-        Debug.Log("I received the message who called the OnSelect");
-        if (!this.GetComponent<Rigidbody>())
-        {
-            Debug.Log("The collision detection is discrete to save some fps for now!");
-            // add component funciton returns the component just added
-            var rigidBody = this.gameObject.AddComponent<Rigidbody>();
-            rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        }
-    }
+    //void OnSelect()
+    //{
+    //    Debug.Log("I received the message who called the OnSelect");
+    //    if (!this.GetComponent<Rigidbody>())
+    //    {
+    //        Debug.Log("The collision detection is discrete to save some fps for now!");
+    //        // add component funciton returns the component just added
+    //        var rigidBody = this.gameObject.AddComponent<Rigidbody>();
+    //        rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+    //    }
+    //}
 
     
 }

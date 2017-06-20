@@ -17,7 +17,6 @@ public class CanvasFaceCamera : MonoBehaviour {
 
         var t = this.gameObject.transform;
 
-        //Quaternion rotToFaceCamera = Quaternion.FromToRotation(t.transform.forward, cameraTran.forward);
 
         t.forward = cameraTran.forward;
 	}
