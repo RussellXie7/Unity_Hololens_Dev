@@ -12,6 +12,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 {
     public class LevelSolver : LineDrawer
     {
+
         // Singleton
         public static LevelSolver Instance;
 
@@ -65,6 +66,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 Box = new AnimatedBox(timeDelay, result.Position, Quaternion.LookRotation(result.Forward, result.Up), Color.blue, result.HalfDims);
                 Result = result;
+
             }
 
             public LineDrawer.AnimatedBox Box;
@@ -262,6 +264,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 {
                     float timeDelay = (float)placementResults.Count * AnimatedBox.DelayPerItem;
                     placementResults.Add(new PlacementResult(timeDelay, queryStatus.QueryResult[i].Clone() as SpatialUnderstandingDllObjectPlacement.ObjectPlacementResult));
+                    //gameObject.SendMessageUpwards("SpawnPortal", queryStatus.QueryResult[i].Clone() as SpatialUnderstandingDllObjectPlacement.ObjectPlacementResult);
                 }
             }
 

@@ -26,6 +26,8 @@ namespace HoloToolkit.Unity.SpatialMapping.Tests
         /// </summary>
         private bool meshesProcessed = false;
 
+        private bool tapped = false;
+
         /// <summary>
         /// GameObject initialization.
         /// </summary>
@@ -36,6 +38,8 @@ namespace HoloToolkit.Unity.SpatialMapping.Tests
 
             // Register for the MakePlanesComplete event.
             SurfaceMeshesToPlanes.Instance.MakePlanesComplete += SurfaceMeshesToPlanes_MakePlanesComplete;
+
+            tapped = false;
         }
 
         /// <summary>
@@ -48,7 +52,8 @@ namespace HoloToolkit.Unity.SpatialMapping.Tests
             {
                 // Check to see if enough scanning time has passed
                 // since starting the observer.
-                if ((Time.unscaledTime - SpatialMappingManager.Instance.StartTime) < scanTime)
+                //if ((Time.unscaledTime - SpatialMappingManager.Instance.StartTime) < scanTime)
+                if(!tapped)
                 {
                     // If we have a limited scanning time, then we should wait until
                     // enough time has passed before processing the mesh.
@@ -72,6 +77,14 @@ namespace HoloToolkit.Unity.SpatialMapping.Tests
                 }
             }
         }
+
+
+        // helper method
+        private void TapDetected()
+        {
+            tapped = true;
+        }
+
 
         /// <summary>
         /// Handler for the SurfaceMeshesToPlanes MakePlanesComplete event.

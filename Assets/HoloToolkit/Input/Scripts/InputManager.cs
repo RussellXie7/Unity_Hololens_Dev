@@ -345,6 +345,7 @@ namespace HoloToolkit.Unity.InputModule
             delegate (IInputClickHandler handler, BaseEventData eventData)
             {
                 InputClickedEventData casted = ExecuteEvents.ValidateEventData<InputClickedEventData>(eventData);
+                
                 handler.OnInputClicked(casted);
             };
 
