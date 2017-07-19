@@ -10,7 +10,11 @@ public class ColletionManager : MonoBehaviour{
 
     public GameObject cube;
     public GameObject pictures;
+    public GameObject videoMesh;
+    public GameObject bedSet;
+    public GameObject lamp;
 
+    private List<GameObject> Furnitures = new List<GameObject>();
     private GameObject picInstance;
     private GameObject cubeInstance;
     private SpatialUnderstandingDllTopology.TopologyResult[] _resultsTopology = new SpatialUnderstandingDllTopology.TopologyResult[QueryResultMaxCount];
@@ -27,9 +31,30 @@ public class ColletionManager : MonoBehaviour{
         }
     }
 
+    // called by CustumLevelSolver
+    public void AddFurnitures(GameObject item)
+    {
+        Furnitures.Add(item);
+        Debug.Log("Now we have " + Furnitures.Count + " number of furnitures.......");
+    }
+
+    private void ResetRoom()
+    {
+        foreach(GameObject item in Furnitures)
+        {
+            Destroy(item);
+        }
+
+        Furnitures.Clear();
+
+        Debug.Log("Furniture list is clear and now have " + Furnitures.Count + " number of furnitures!!!!!!");
+    }
 
     public void OnClick()
     {
+
+        ResetRoom();
+
         Debug.Log("OnInputClick is detected!!!!!!!!!!!!!!!!!  tapAllowed is "+tapAllowed);
         // only do things when tap allowed 
         if (!tapAllowed)
@@ -53,11 +78,42 @@ public class ColletionManager : MonoBehaviour{
 
         // add boxes;
         //var lineInc = Mathf.CeilToInt((float)locationCount / (float)DisplayResultMaxCount);
-        CustomLevelSolver.Instance.Query_OnWall();
+        //StartCoroutine(BuildRoom());
+
         //StartCoroutine(AddBoxes(lineInc, locationCount));
         //StartCoroutine(AddPicture(lineInc, locationCount));
-
+        StartCoroutine(BuildRoom());
     }
+
+    IEnumerator BuildRoom()
+    {
+        CustomLevelSolver.Instance.Query_OnWall(pictures, 1f, 2f, false, new Vector3(0.8f,0.4f,0.05f));
+        yield return new WaitForSeconds(0.1f);
+        while (CustomLevelSolver.Instance.CurrentState() != CustomLevelSolver.QueryStates.None)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        CustomLevelSolver.Instance.Query_OnWall(videoMesh, 0.5f, 1f, true, new Vector3(0.65f,0.35f,0.05f));
+        yield return new WaitForSeconds(0.1f);
+        while (CustomLevelSolver.Instance.CurrentState() != CustomLevelSolver.QueryStates.None)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        CustomLevelSolver.Instance.Query_OnFloor(bedSet, true, new Vector3(0.65f,0.25f,1f));
+        yield return new WaitForSeconds(0.1f);
+        while (CustomLevelSolver.Instance.CurrentState() != CustomLevelSolver.QueryStates.None)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        CustomLevelSolver.Instance.Query_OnCeiling(lamp, new Vector3(0.5f,0.21f,0.5f));
+        yield return null;
+    }
+
+
+
 
     IEnumerator AddPicture(int lineInc, int locationCount)
     {

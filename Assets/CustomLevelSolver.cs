@@ -6,11 +6,15 @@ using System.Runtime.InteropServices;
 using System;
 
 public class CustomLevelSolver : MonoBehaviour {
-
     public GameObject _picture;
 
     // this is singleton
     public static CustomLevelSolver Instance;
+
+    private bool isVideo = false;
+    private bool isBed = false;
+    private bool isLamp = false;
+
 
     // Enums
     public enum QueryStates
@@ -66,6 +70,30 @@ public class CustomLevelSolver : MonoBehaviour {
             Picture = Instantiate(CustomLevelSolver.Instance._picture, result.Position, Quaternion.identity);
             Picture.isStatic = false;
             Picture.transform.forward = result.Forward;
+
+            if (CustomLevelSolver.Instance.isVideo) {
+                Picture.transform.forward = -Picture.transform.up;
+                CustomLevelSolver.Instance.isVideo = false;
+            }
+
+            if (CustomLevelSolver.Instance.isBed)
+            {
+                // we can adjust the forward direction of the bed here.
+                //Picture.transform.localPosition = new Vector3(Picture.transform.localPosition.x, 0, Picture.transform.localPosition.z);
+                // some offset 
+                Picture.transform.position += new Vector3(0, 0.15f, 0);
+                Instance.isBed = false;
+            }
+
+            if (CustomLevelSolver.Instance.isLamp)
+            {
+                // move up a little
+                Picture.transform.position += new Vector3(0, 0.15f, 0);
+                CustomLevelSolver.Instance.isLamp = false;
+            }
+
+            CustomLevelSolver.Instance.SendMessageUpwards("AddFurnitures",Picture);
+            
             Result = result;
         }
 
@@ -245,17 +273,58 @@ public class CustomLevelSolver : MonoBehaviour {
         queryStatus.Reset();
     }
 
-
-    public void Query_OnWall()
+    public void Query_OnFloor(GameObject obj, bool isBedSet, Vector3 halfDimVec)
     {
+        isBed = isBedSet;
+        isLamp = false;
+        isVideo = false;
+        _picture = obj;
+        List<PlacementQuery> placementQuery = new List<PlacementQuery>();
+        for (int i = 0; i < 1; ++i)
+        {
+            float halfDimSize = UnityEngine.Random.Range(0.15f, 0.35f);
+            placementQuery.Add(
+                new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnFloor(halfDimVec),
+                                    new List<SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule>() {
+                                            SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 3.0f),
+                                    }));
+        }
+        PlaceObjectAsync("OnFloor", placementQuery);
+    }
+
+    public void Query_OnCeiling(GameObject obj, Vector3 halfDimVec)
+    {
+        isLamp = true;
+        isVideo = false;
+        isBed = false;
+        _picture = obj;
+        List<PlacementQuery> placementQuery = new List<PlacementQuery>();
+        for (int i = 0; i < 1; ++i)
+        {
+            float halfDimSize = UnityEngine.Random.Range(0.3f, 0.4f);
+            placementQuery.Add(
+                new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnCeiling(halfDimVec),
+                                    new List<SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule>() {
+                                            SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 3.0f),
+                                    }));
+        }
+        PlaceObjectAsync("OnCeiling", placementQuery);
+    }
+
+    public void Query_OnWall(GameObject obj, float minHeight, float maxHeight, bool isVideoMesh, Vector3 halfDimVec)
+    {
+        isVideo = isVideoMesh;
+        _picture = obj;
+        isBed = false;
+        isLamp = false;
         List<PlacementQuery> placementQuery = new List<PlacementQuery>();
         for (int i = 0; i < 1; ++i)
         {
             float halfDimSize = UnityEngine.Random.Range(0.3f, 0.6f);
             placementQuery.Add(
-                new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnWall(new Vector3(halfDimSize, halfDimSize * 0.5f, 0.05f), 0.5f, 3.0f),
+                new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnWall(halfDimVec, minHeight, maxHeight),
                                     new List<SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule>() {
-                                            SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 4.0f),
+                                            SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 2.0f),
                                     }));
         }
         PlaceObjectAsync("OnWall", placementQuery);
@@ -310,5 +379,10 @@ public class CustomLevelSolver : MonoBehaviour {
 
         //// Lines: Finish up
         //LineDraw_End(needsUpdate);
+    }
+
+    public QueryStates CurrentState()
+    {
+        return Instance.queryStatus.State;
     }
 }

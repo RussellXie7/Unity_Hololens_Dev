@@ -12,7 +12,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 {
     public class LevelSolver : LineDrawer
     {
-
+        public Vector3 theVector;
         // Singleton
         public static LevelSolver Instance;
 
@@ -282,7 +282,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 float halfDimSize = UnityEngine.Random.Range(0.15f, 0.35f);
                 placementQuery.Add(
-                    new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnFloor(new Vector3(halfDimSize, halfDimSize, halfDimSize * 2.0f)),
+                    new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnFloor(theVector),
                                         new List<SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule>() {
                                             SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 3.0f),
                                         }));
@@ -297,7 +297,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 float halfDimSize = UnityEngine.Random.Range(0.3f, 0.6f);
                 placementQuery.Add(
-                    new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnWall(new Vector3(halfDimSize, halfDimSize * 0.5f, 0.05f), 0.5f, 3.0f),
+                    new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnWall(theVector,0.5f,3.0f),//new Vector3(halfDimSize, halfDimSize * 0.5f, 0.05f), 0.5f, 3.0f),
                                         new List<SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule>() {
                                             SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 4.0f),
                                         }));
@@ -312,7 +312,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 float halfDimSize = UnityEngine.Random.Range(0.3f, 0.4f);
                 placementQuery.Add(
-                    new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnCeiling(new Vector3(halfDimSize, halfDimSize, halfDimSize)),
+                    new PlacementQuery(SpatialUnderstandingDllObjectPlacement.ObjectPlacementDefinition.Create_OnCeiling(theVector),
                                         new List<SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule>() {
                                             SpatialUnderstandingDllObjectPlacement.ObjectPlacementRule.Create_AwayFromOtherObjects(halfDimSize * 3.0f),
                                         }));
