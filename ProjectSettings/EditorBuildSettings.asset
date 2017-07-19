@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/HoloToolkit-Tests/SpatialMapping/Scenes/SpatialProcessing.unity
     guid: b7bd1052e811d44438fa58055dc800de
-  - enabled: 1
+  - enabled: 0
     path: Assets/HoloToolkit-Examples/SpatialUnderstanding/SpatialUnderstanding-FeatureOverview/Scenes/SpatialUnderstandingExample.unity
     guid: 7ecf1c34f0ac4b4449076e91efc011be
+  - enabled: 1
+    path: Assets/SleepScenrio.unity
+    guid: 6971ac70bc025e7459ff0226ae532c98

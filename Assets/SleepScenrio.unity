@@ -966,6 +966,7 @@ MonoBehaviour:
   videoMesh: {fileID: 829802192}
   bedSet: {fileID: 1118553748}
   lamp: {fileID: 1224680352277096, guid: e45f918608a092c45a23f20142ce35a6, type: 2}
+  table: {fileID: 1175127807700124, guid: 114e895e06c504b42bd3aaf7bdd6fe3c, type: 2}
 --- !u!1 &596624132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,7 +1488,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000012022330152, guid: 3eddd1c29199313478dd3f912bfab2ab, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3eddd1c29199313478dd3f912bfab2ab, type: 2}
