@@ -14,10 +14,12 @@ public class ColletionManager : MonoBehaviour{
     public GameObject bedSet;
     public GameObject lamp;
     public GameObject table;
+    public GameObject portal;
 
     private List<GameObject> Furnitures = new List<GameObject>();
     private GameObject picInstance;
     private GameObject cubeInstance;
+    private bool audio_is_playing = false;
     private SpatialUnderstandingDllTopology.TopologyResult[] _resultsTopology = new SpatialUnderstandingDllTopology.TopologyResult[QueryResultMaxCount];
     private SpatialUnderstandingDllObjectPlacement.ObjectPlacementResult[] _resultsObj = new SpatialUnderstandingDllObjectPlacement.ObjectPlacementResult[QueryResultMaxCount];
 
@@ -39,6 +41,11 @@ public class ColletionManager : MonoBehaviour{
         Debug.Log("Now we have " + Furnitures.Count + " number of furnitures.......");
     }
 
+    public void AudioIsPlaying()
+    {
+        audio_is_playing = true;
+    }
+
     private void ResetRoom()
     {
         foreach(GameObject item in Furnitures)
@@ -54,13 +61,29 @@ public class ColletionManager : MonoBehaviour{
     public void OnClick()
     {
 
-        ResetRoom();
+
 
         Debug.Log("OnInputClick is detected!!!!!!!!!!!!!!!!!  tapAllowed is "+tapAllowed);
         // only do things when tap allowed 
         if (!tapAllowed)
             return;
 
+        if (audio_is_playing)
+        {
+            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>() as AudioSource[];
+
+            foreach (AudioSource audioS in allAudioSources)
+            {
+                audioS.Stop();
+            }
+
+            audio_is_playing = false;
+
+            return;
+        }
+
+        ResetRoom();
+        
         //Query
         var resultsTopologyPtr = SpatialUnderstanding.Instance.UnderstandingDLL.PinObject(_resultsTopology);
 
@@ -102,12 +125,12 @@ public class ColletionManager : MonoBehaviour{
             yield return new WaitForSeconds(0.1f);
         }
 
-        CustomLevelSolver.Instance.Query_OnFloor(bedSet, true, new Vector3(0.7f,0.5f,1.5f));
-        yield return new WaitForSeconds(0.1f);
-        while (CustomLevelSolver.Instance.CurrentState() != CustomLevelSolver.QueryStates.None)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
+        //CustomLevelSolver.Instance.Query_OnFloor(bedSet, false, new Vector3(0.7f,0.5f,1.5f));
+        //yield return new WaitForSeconds(0.1f);
+        //while (CustomLevelSolver.Instance.CurrentState() != CustomLevelSolver.QueryStates.None)
+        //{
+        //    yield return new WaitForSeconds(0.1f);
+        //}
 
         CustomLevelSolver.Instance.Query_OnCeiling(lamp, new Vector3(0.5f,0.2f,0.5f));
         yield return new WaitForSeconds(0.1f);
@@ -116,10 +139,17 @@ public class ColletionManager : MonoBehaviour{
             yield return new WaitForSeconds(0.1f);
         }
 
-        CustomLevelSolver.Instance.Query_OnFloor(table, false, new Vector3(0.6f, 0.15f, 0.5f));
+        CustomLevelSolver.Instance.Query_OnFloor(table, true, new Vector3(0.6f, 0.15f, 0.5f));
+        yield return new WaitForSeconds(0.1f);
+        while (CustomLevelSolver.Instance.CurrentState() != CustomLevelSolver.QueryStates.None)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        CustomLevelSolver.Instance.Query_OnFloor(portal, false, new Vector3(0.5f, 0.01f, 0.5f));
+
         yield return null;
     }
-
 
 
 

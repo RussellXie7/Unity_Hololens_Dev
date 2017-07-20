@@ -12,7 +12,7 @@ public class CustomLevelSolver : MonoBehaviour {
     public static CustomLevelSolver Instance;
 
     private bool isVideo = false;
-    private bool isBed = false;
+    private bool isTable = false;
     private bool isLamp = false;
 
 
@@ -76,13 +76,13 @@ public class CustomLevelSolver : MonoBehaviour {
                 CustomLevelSolver.Instance.isVideo = false;
             }
 
-            if (CustomLevelSolver.Instance.isBed)
+            if (CustomLevelSolver.Instance.isTable)
             {
                 // we can adjust the forward direction of the bed here.
                 //Picture.transform.localPosition = new Vector3(Picture.transform.localPosition.x, 0, Picture.transform.localPosition.z);
                 // some offset 
-                //Picture.transform.position += new Vector3(0, 0.15f, 0);
-                Instance.isBed = false;
+                Picture.transform.position -= new Vector3(0, 0.2f, 0);
+                Instance.isTable = false;
             }
 
             if (CustomLevelSolver.Instance.isLamp)
@@ -273,9 +273,9 @@ public class CustomLevelSolver : MonoBehaviour {
         queryStatus.Reset();
     }
 
-    public void Query_OnFloor(GameObject obj, bool isBedSet, Vector3 halfDimVec)
+    public void Query_OnFloor(GameObject obj, bool isTableSet, Vector3 halfDimVec)
     {
-        isBed = isBedSet;
+        isTable = isTableSet;
         isLamp = false;
         isVideo = false;
         _picture = obj;
@@ -296,7 +296,7 @@ public class CustomLevelSolver : MonoBehaviour {
     {
         isLamp = true;
         isVideo = false;
-        isBed = false;
+        isTable = false;
         _picture = obj;
         List<PlacementQuery> placementQuery = new List<PlacementQuery>();
         for (int i = 0; i < 1; ++i)
@@ -315,7 +315,7 @@ public class CustomLevelSolver : MonoBehaviour {
     {
         isVideo = isVideoMesh;
         _picture = obj;
-        isBed = false;
+        isTable = false;
         isLamp = false;
         List<PlacementQuery> placementQuery = new List<PlacementQuery>();
         for (int i = 0; i < 1; ++i)
