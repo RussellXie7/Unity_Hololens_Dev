@@ -3,6 +3,7 @@
 
 using UnityEngine;
 using System;
+using HoloToolkit.Sharing.Tests;
 
 namespace HoloToolkit.Unity.InputModule
 {
@@ -180,6 +181,8 @@ namespace HoloToolkit.Unity.InputModule
             {
                 StopDragging();
             }
+
+
         }
 
         /// <summary>
@@ -231,6 +234,8 @@ namespace HoloToolkit.Unity.InputModule
                 Quaternion upRotation = Quaternion.FromToRotation(HostTransform.up, Vector3.up);		
                 HostTransform.rotation = upRotation * HostTransform.rotation;		
             }
+
+            
         }
 
         /// <summary>
@@ -249,6 +254,9 @@ namespace HoloToolkit.Unity.InputModule
             isDragging = false;
             currentInputSource = null;
             StoppedDragging.RaiseEvent();
+
+            // Russell's custom scripts
+            gameObject.SendMessage("StopDragging");
         }
 
         public void OnFocusEnter()

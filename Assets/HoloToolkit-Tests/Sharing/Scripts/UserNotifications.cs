@@ -8,6 +8,7 @@ namespace HoloToolkit.Sharing.Tests
     /// </summary>
     public class UserNotifications : MonoBehaviour
     {
+        public TextMesh AnchorDebugText;
         private SessionUsersTracker usersTracker;
         private static User localUser = null;
 
@@ -34,6 +35,11 @@ namespace HoloToolkit.Sharing.Tests
             for (int i = 0; i < usersTracker.CurrentUsers.Count; i++)
             {
                 users += "\n" + usersTracker.CurrentUsers[i].GetName();
+            }
+
+            if (AnchorDebugText != null)
+            {
+                AnchorDebugText.text += string.Format("\nUser Notifications: {0} users in room.{1}", usersTracker.CurrentUsers.Count, users);
             }
 
             Debug.LogFormat("User Notifications: {0} users in room.{1}", usersTracker.CurrentUsers.Count, users);

@@ -121,8 +121,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                             }
                             return "Walk around and scan in your playspace";
                         case SpatialUnderstanding.ScanStates.Finishing:
-                            //gameObject.SendMessageUpwards("EnableCollection");
-                            gameObject.SendMessageUpwards("ActivateTap");
                             return "Finalizing scan (please wait)";
                         case SpatialUnderstanding.ScanStates.Done:
                             return "Scan complete - Use the menu to run queries";
@@ -299,8 +297,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 SpatialUnderstanding.Instance.RequestFinishScan();
             }
-
-            SendMessageUpwards("OnClick");
         }
     }
 }

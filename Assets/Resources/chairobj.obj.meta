@@ -1,0 +1,235 @@
+fileFormatVersion: 2
+guid: 9d8a0b4da5e670c429890e43561b104e
+timeCreated: 1501110073
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: office_chair_HyperNURBS_12_Null5_Cube2
+    100004: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart0
+    100006: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart1
+    100008: office_chair_HyperNURBS_12_Null5_Cube3
+    100010: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart0
+    100012: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart1
+    100014: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart2
+    100016: office_chair_HyperNURBS_1_Cylinder_4
+    100018: office_chair_HyperNURBS_1_Sweep_NURBS
+    100020: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart0
+    100022: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart1
+    100024: office_chair_Null2_HyperNURBS_11_Cube1
+    100026: office_chair_Null2_Oil_Tank
+    100028: office_chair_Null2_Oil_Tank_1
+    100030: office_chair_Null2_Oil_Tank_1_Oil_Tank5
+    100032: office_chair_Null2_Oil_Tank_2
+    100034: office_chair_Null2_Oil_Tank_2_Oil_Tank4
+    100036: office_chair_Null2_Oil_Tank_3
+    100038: office_chair_Null2_Oil_Tank_3_Oil_Tank3
+    100040: office_chair_Null2_Oil_Tank_4
+    100042: office_chair_Null2_Oil_Tank_4_Oil_Tank2
+    100044: office_chair_Null2_Oil_Tank_Oil_Tank1
+    100046: office_chair_Null3_HyperNURBS_2_Cube_2
+    100048: office_chair_Null3_Sweep_NURBS1
+    100050: office_chair_Null_Null1_Cube
+    100052: office_chair_Null_Null1_Cube_1
+    100054: office_chair_Null_Null1_Cube_11
+    100056: office_chair_Null_Null1_Cylinder
+    100058: office_chair_Null_Null1_Cylinder1
+    100060: office_chair_Null_Null1_Cylinder2
+    100062: office_chair_Null_Null1_Cylinder3
+    100064: office_chair_Null_Null1_Cylinder_1
+    100066: STUDIO_LUZ_Disc
+    400000: //RootNode
+    400002: office_chair_HyperNURBS_12_Null5_Cube2
+    400004: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart0
+    400006: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart1
+    400008: office_chair_HyperNURBS_12_Null5_Cube3
+    400010: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart0
+    400012: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart1
+    400014: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart2
+    400016: office_chair_HyperNURBS_1_Cylinder_4
+    400018: office_chair_HyperNURBS_1_Sweep_NURBS
+    400020: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart0
+    400022: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart1
+    400024: office_chair_Null2_HyperNURBS_11_Cube1
+    400026: office_chair_Null2_Oil_Tank
+    400028: office_chair_Null2_Oil_Tank_1
+    400030: office_chair_Null2_Oil_Tank_1_Oil_Tank5
+    400032: office_chair_Null2_Oil_Tank_2
+    400034: office_chair_Null2_Oil_Tank_2_Oil_Tank4
+    400036: office_chair_Null2_Oil_Tank_3
+    400038: office_chair_Null2_Oil_Tank_3_Oil_Tank3
+    400040: office_chair_Null2_Oil_Tank_4
+    400042: office_chair_Null2_Oil_Tank_4_Oil_Tank2
+    400044: office_chair_Null2_Oil_Tank_Oil_Tank1
+    400046: office_chair_Null3_HyperNURBS_2_Cube_2
+    400048: office_chair_Null3_Sweep_NURBS1
+    400050: office_chair_Null_Null1_Cube
+    400052: office_chair_Null_Null1_Cube_1
+    400054: office_chair_Null_Null1_Cube_11
+    400056: office_chair_Null_Null1_Cylinder
+    400058: office_chair_Null_Null1_Cylinder1
+    400060: office_chair_Null_Null1_Cylinder2
+    400062: office_chair_Null_Null1_Cylinder3
+    400064: office_chair_Null_Null1_Cylinder_1
+    400066: STUDIO_LUZ_Disc
+    2300000: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart0
+    2300002: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart1
+    2300004: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart0
+    2300006: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart1
+    2300008: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart2
+    2300010: office_chair_HyperNURBS_1_Cylinder_4
+    2300012: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart0
+    2300014: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart1
+    2300016: office_chair_Null2_HyperNURBS_11_Cube1
+    2300018: office_chair_Null2_Oil_Tank
+    2300020: office_chair_Null2_Oil_Tank_1
+    2300022: office_chair_Null2_Oil_Tank_1_Oil_Tank5
+    2300024: office_chair_Null2_Oil_Tank_2
+    2300026: office_chair_Null2_Oil_Tank_2_Oil_Tank4
+    2300028: office_chair_Null2_Oil_Tank_3
+    2300030: office_chair_Null2_Oil_Tank_3_Oil_Tank3
+    2300032: office_chair_Null2_Oil_Tank_4
+    2300034: office_chair_Null2_Oil_Tank_4_Oil_Tank2
+    2300036: office_chair_Null2_Oil_Tank_Oil_Tank1
+    2300038: office_chair_Null3_HyperNURBS_2_Cube_2
+    2300040: office_chair_Null3_Sweep_NURBS1
+    2300042: office_chair_Null_Null1_Cube
+    2300044: office_chair_Null_Null1_Cube_1
+    2300046: office_chair_Null_Null1_Cube_11
+    2300048: office_chair_Null_Null1_Cylinder
+    2300050: office_chair_Null_Null1_Cylinder1
+    2300052: office_chair_Null_Null1_Cylinder2
+    2300054: office_chair_Null_Null1_Cylinder3
+    2300056: office_chair_Null_Null1_Cylinder_1
+    2300058: STUDIO_LUZ_Disc
+    3300000: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart0
+    3300002: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart1
+    3300004: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart0
+    3300006: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart1
+    3300008: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart2
+    3300010: office_chair_HyperNURBS_1_Cylinder_4
+    3300012: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart0
+    3300014: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart1
+    3300016: office_chair_Null2_HyperNURBS_11_Cube1
+    3300018: office_chair_Null2_Oil_Tank
+    3300020: office_chair_Null2_Oil_Tank_1
+    3300022: office_chair_Null2_Oil_Tank_1_Oil_Tank5
+    3300024: office_chair_Null2_Oil_Tank_2
+    3300026: office_chair_Null2_Oil_Tank_2_Oil_Tank4
+    3300028: office_chair_Null2_Oil_Tank_3
+    3300030: office_chair_Null2_Oil_Tank_3_Oil_Tank3
+    3300032: office_chair_Null2_Oil_Tank_4
+    3300034: office_chair_Null2_Oil_Tank_4_Oil_Tank2
+    3300036: office_chair_Null2_Oil_Tank_Oil_Tank1
+    3300038: office_chair_Null3_HyperNURBS_2_Cube_2
+    3300040: office_chair_Null3_Sweep_NURBS1
+    3300042: office_chair_Null_Null1_Cube
+    3300044: office_chair_Null_Null1_Cube_1
+    3300046: office_chair_Null_Null1_Cube_11
+    3300048: office_chair_Null_Null1_Cylinder
+    3300050: office_chair_Null_Null1_Cylinder1
+    3300052: office_chair_Null_Null1_Cylinder2
+    3300054: office_chair_Null_Null1_Cylinder3
+    3300056: office_chair_Null_Null1_Cylinder_1
+    3300058: STUDIO_LUZ_Disc
+    4300000: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart0
+    4300002: office_chair_HyperNURBS_12_Null5_Cube2_MeshPart1
+    4300004: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart0
+    4300006: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart1
+    4300008: office_chair_HyperNURBS_12_Null5_Cube3_MeshPart2
+    4300010: office_chair_HyperNURBS_1_Cylinder_4
+    4300012: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart0
+    4300014: office_chair_HyperNURBS_1_Sweep_NURBS_MeshPart1
+    4300016: office_chair_Null2_HyperNURBS_11_Cube1
+    4300018: office_chair_Null2_Oil_Tank
+    4300020: office_chair_Null2_Oil_Tank_1
+    4300022: office_chair_Null2_Oil_Tank_1_Oil_Tank5
+    4300024: office_chair_Null2_Oil_Tank_2
+    4300026: office_chair_Null2_Oil_Tank_2_Oil_Tank4
+    4300028: office_chair_Null2_Oil_Tank_3
+    4300030: office_chair_Null2_Oil_Tank_3_Oil_Tank3
+    4300032: office_chair_Null2_Oil_Tank_4
+    4300034: office_chair_Null2_Oil_Tank_4_Oil_Tank2
+    4300036: office_chair_Null2_Oil_Tank_Oil_Tank1
+    4300038: office_chair_Null3_HyperNURBS_2_Cube_2
+    4300040: office_chair_Null3_Sweep_NURBS1
+    4300042: office_chair_Null_Null1_Cube
+    4300044: office_chair_Null_Null1_Cube_1
+    4300046: office_chair_Null_Null1_Cube_11
+    4300048: office_chair_Null_Null1_Cylinder
+    4300050: office_chair_Null_Null1_Cylinder1
+    4300052: office_chair_Null_Null1_Cylinder2
+    4300054: office_chair_Null_Null1_Cylinder3
+    4300056: office_chair_Null_Null1_Cylinder_1
+    4300058: STUDIO_LUZ_Disc
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

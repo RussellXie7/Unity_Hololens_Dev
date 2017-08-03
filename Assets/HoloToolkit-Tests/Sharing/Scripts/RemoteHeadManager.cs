@@ -15,6 +15,9 @@ namespace HoloToolkit.Sharing.Tests
     /// </summary>
     public class RemoteHeadManager : Singleton<RemoteHeadManager>
     {
+
+        public TextMesh AnchorDebugText;
+
         public class RemoteHeadInfo
         {
             public long UserID;

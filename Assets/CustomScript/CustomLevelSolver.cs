@@ -67,9 +67,13 @@ public class CustomLevelSolver : MonoBehaviour {
     {
         public PlacementResult(float timeDelay, SpatialUnderstandingDllObjectPlacement.ObjectPlacementResult result)
         {
-            Picture = Instantiate(CustomLevelSolver.Instance._picture, result.Position, Quaternion.identity);
+            Picture = Instantiate(CustomLevelSolver.Instance._picture, Camera.main.transform.position + Camera.main.transform.forward.normalized*2f, Quaternion.identity);
             Picture.isStatic = false;
             Picture.transform.forward = result.Forward;
+
+            if (!Picture.activeSelf) Picture.SetActive(true);
+
+            Vector3 destination = result.Position;
 
             if (CustomLevelSolver.Instance.isVideo) {
                 Picture.transform.forward = -Picture.transform.up;
@@ -81,24 +85,44 @@ public class CustomLevelSolver : MonoBehaviour {
                 // we can adjust the forward direction of the bed here.
                 //Picture.transform.localPosition = new Vector3(Picture.transform.localPosition.x, 0, Picture.transform.localPosition.z);
                 // some offset 
-                Picture.transform.position -= new Vector3(0, 0.2f, 0);
+                destination -= new Vector3(0, 0.2f, 0);
                 Instance.isTable = false;
             }
 
             if (CustomLevelSolver.Instance.isLamp)
             {
                 // move up a little
-                Picture.transform.position += new Vector3(0, 0.15f, 0);
+                destination += new Vector3(0, 0.15f, 0);
                 CustomLevelSolver.Instance.isLamp = false;
             }
 
+            CustomLevelSolver.Instance.StartCoroutine(CustomLevelSolver.Instance.InterpolateObject(Picture, destination));
+
+            // don't clear menu
             CustomLevelSolver.Instance.SendMessageUpwards("AddFurnitures",Picture);
-            
             Result = result;
         }
 
         public GameObject Picture;
         public SpatialUnderstandingDllObjectPlacement.ObjectPlacementResult Result;
+    }
+
+    IEnumerator InterpolateObject(GameObject obj, Vector3 destination)
+    {
+        Vector3 finalSize = obj.transform.localScale;
+        Vector3 initialSize = finalSize * 0.1f;
+
+        obj.transform.localScale = initialSize;
+
+        while (obj.transform.localScale != finalSize)
+        {
+            obj.transform.localScale = Vector3.Lerp(obj.transform.localScale, finalSize, 0.1f);
+            obj.transform.position = Vector3.Lerp(obj.transform.position, destination, 0.1f);
+
+            yield return new WaitForSeconds(Time.deltaTime * 0.5f);
+        }
+
+        yield return null;
     }
 
     // Properties
@@ -311,7 +335,7 @@ public class CustomLevelSolver : MonoBehaviour {
         PlaceObjectAsync("OnCeiling", placementQuery);
     }
 
-    public void Query_OnWall(GameObject obj, float minHeight, float maxHeight, bool isVideoMesh, Vector3 halfDimVec)
+    public void Query_OnWall(GameObject obj, float minHeight, float maxHeight, bool isVideoMesh,Vector3 halfDimVec)
     {
         isVideo = isVideoMesh;
         _picture = obj;
