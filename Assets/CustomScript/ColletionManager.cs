@@ -55,7 +55,6 @@ public class ColletionManager : MonoBehaviour{
             tapAllowed = true;
         }
     }
-
     // called by CustumLevelSolver
     public void AddFurnitures(GameObject item)
     {
@@ -146,7 +145,11 @@ public class ColletionManager : MonoBehaviour{
         Debug.Log("OnInputClick is detected!!!!!!!!!!!!!!!!!  tapAllowed is "+tapAllowed);
         // only do things when tap allowed 
         if (!tapAllowed)
+        {
+            if (SpatialUnderstanding.Instance.ScanState == SpatialUnderstanding.ScanStates.Done)
+            { ActivateTap(); }
             return;
+        }
 
         if (initialSetupComplete)
             return;

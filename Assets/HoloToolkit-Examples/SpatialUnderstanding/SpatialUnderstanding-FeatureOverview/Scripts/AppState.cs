@@ -297,6 +297,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 SpatialUnderstanding.Instance.RequestFinishScan();
             }
+
+            SendMessageUpwards("OnClick");
         }
     }
 }
