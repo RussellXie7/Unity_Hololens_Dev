@@ -71,7 +71,7 @@ public class MoneyBudgetManager : MonoBehaviour {
 
             Helper_UpdateBarAndText(currBudget, barPercent);
                 
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime * 0.5f);
         }
 
         Helper_UpdateBarAndText(end, barPercentTarget);
